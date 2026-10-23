@@ -61,7 +61,7 @@ def scrape() -> list:
             try:
                 df = scrape_jobs(site_name=["indeed", "naukri", "linkedin"], search_term=role, location=loc,
                                  results_wanted=10, hours_old=HOURS_OLD, country_indeed="india",
-                                 linkedin_fetch_description=True)
+                                 fetch_description=True)
             except Exception as e:
                 print(f"[scrape notice] {role} / {loc}: {e}"); continue
             for _, r in df.iterrows():
@@ -91,7 +91,9 @@ def send_digest(apply_, stretch, flagged, total):
     msg["Subject"] = f"Job digest: {len(apply_)} to review, {len(stretch)} stretch"
     msg["From"] = msg["To"] = EMAIL_SENDER
     msg.attach(MIMEText(html, "html"))
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
+    
+    with smtplib.SMTP("smtp.gmail.com", 587) as s:
+        s.starttls()
         s.login(EMAIL_SENDER, EMAIL_APP_PASSWORD)
         s.sendmail(EMAIL_SENDER, EMAIL_SENDER, msg.as_string())
 
