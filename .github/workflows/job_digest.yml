@@ -1,0 +1,28 @@
+name: Daily Job Digest
+on:
+  schedule:
+    - cron: '30 2 * * *'   # 08:00 IST daily
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Run digest (emails only you; never contacts employers)
+        env:
+          EMAIL_SENDER: souravrchowdhury2020@gmail.com
+          EMAIL_APP_PASSWORD: ${{ secrets.EMAIL_APP_PASSWORD }}
+        run: python job_digest.py
+      - name: Save seen-jobs memory
+        run: |
+          git config user.name 'job-digest'
+          git config user.email 'souravrchowdhury2020@gmail.com'
+          git add ghost_memory.db || true
+          git diff --staged --quiet || git commit -m 'Update seen-jobs memory'
+          git push origin main || true

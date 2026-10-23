@@ -1,0 +1,6 @@
+# Protect live API keys from GitHub Push Protection blocks
+.env
+deploy_to_github.py
+__pycache__/
+*.pyc
+agent.log
