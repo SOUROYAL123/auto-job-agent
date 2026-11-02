@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 apollo_hunter_engine.py - Enterprise B2B & Job Intelligence Module (Apollo/Hunter style):
 1. Domain Extraction & Corporate Pattern Resolution from Job postings.

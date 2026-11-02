@@ -1,4 +1,4 @@
-﻿import os, sqlite3, tempfile
+import os, sqlite3, tempfile
 tmp = tempfile.mkdtemp()
 os.environ["DB_PATH"] = os.path.join(tmp, "u.db")
 import job_agent as ja

@@ -1,4 +1,4 @@
-﻿"""Offline tests: no network, no Gmail, no Gemini. Run: python test_pipeline.py"""
+"""Offline tests: no network, no Gmail, no Gemini. Run: python test_pipeline.py"""
 import os
 import sys
 import tempfile

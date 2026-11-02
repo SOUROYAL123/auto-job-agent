@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 resume_tailor.py - Single-pass generator for ATS-tailored resume summary, bullets,
 cover letter, and STAR story, strictly aligned with Sourav's two PDF resumes.

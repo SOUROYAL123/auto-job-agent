@@ -1,4 +1,4 @@
-﻿name: daily-job-agent
+name: daily-job-agent
 
 on:
   schedule:

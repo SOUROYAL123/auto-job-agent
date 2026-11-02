@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 job_agent.py - resilient multi-portal cloud job discovery, scoring & digest pipeline.
 
@@ -291,7 +291,7 @@ def is_fresh(date_posted: str, hours_old: int = None) -> bool:
     except Exception:
         return True
     max_days = -(-hours_old // 24)  # ceil
-    return (datetime.now().date() - d).days <= max_days
+    return (datetime.now(timezone.utc).date() - d).days <= max_days
 
 
 def clean(val) -> str:
@@ -1343,7 +1343,7 @@ def stage_score(
                         print("[score] Gemini rejected GEMINI_API_KEY. Check .env and rerun.")
                         conn.close()
                         return done
-                    if not custom_scorer and ("404" in str(exc) or "NOT_FOUND" in str(exc)):
+                    if not custom_scorer and ("NOT_FOUND" in str(exc) or ("404" in str(exc) and "model" in str(exc).lower())):
                         print(f"[score] model '{current_model}' unavailable (404); trying next fallback...")
                         rotate_model = True
                         break

@@ -1,4 +1,4 @@
-﻿"""
+"""
 networking_helper.py - builds your referral / recruiter outreach kit from the jobs the agent scored.
 
 It does NOT message anyone and does NOT touch LinkedIn. It writes networking_kit.xlsx with:
