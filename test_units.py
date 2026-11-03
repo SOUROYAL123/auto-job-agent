@@ -1,3 +1,5 @@
+import sys as _sys, pathlib as _pathlib
+_sys.path.insert(0, str(_pathlib.Path(__file__).resolve().parent / 'old_files'))
 import os, sqlite3, tempfile
 tmp = tempfile.mkdtemp()
 os.environ["DB_PATH"] = os.path.join(tmp, "u.db")

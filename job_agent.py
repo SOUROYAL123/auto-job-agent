@@ -1365,6 +1365,16 @@ def stage_score(
                             exhausted_all = True
                         break
                     print(f"[score] error on job {job['id']}: {str(exc)[:180]}")
+                    try:
+                        _jid = job['id']
+                        conn.execute("UPDATE jobs SET score_attempts = COALESCE(score_attempts, 0) + 1 WHERE id = ? OR job_hash = ?", (_jid, str(_jid)))
+                        _att_row = conn.execute("SELECT COALESCE(score_attempts, 0) FROM jobs WHERE id = ? OR job_hash = ?", (_jid, str(_jid))).fetchone()
+                        _att = _att_row[0] if _att_row else 1
+                        if _att >= 3:
+                            conn.execute("UPDATE jobs SET scored = 1, match_score = 0, priority = 'Low', fit_reason = 'error-skip: persistent failure', scored_model = 'error-skip', scored_at = datetime('now') WHERE id = ? OR job_hash = ?", (_jid, str(_jid)))
+                        conn.commit()
+                    except Exception as _sync_err:
+                        print(f'[score] error-tracking failure: {_sync_err}')
                     break
 
             if rotate_model:

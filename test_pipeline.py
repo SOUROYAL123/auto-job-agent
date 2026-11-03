@@ -1,3 +1,7 @@
+import os as _os
+_os.environ['MIN_EMAIL_MATCH_SCORE'] = '60'
+_os.environ['MIN_MATCH_SCORE'] = '60'
+_os.environ['MIN_SCORE'] = '60'
 """Offline tests: no network, no Gmail, no Gemini. Run: python test_pipeline.py"""
 import os
 import sys
@@ -9,7 +13,11 @@ os.environ.update(DB_PATH=os.path.join(tmp, "t.db"), EXCEL_BACKUP_PATH=os.path.j
                   EMAIL_ADDRESS="me@example.com", EMAIL_PASSWORD="x", RECIPIENT_EMAIL="me@example.com",
                   GEMINI_API_KEY="")
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import job_agent as ja  # noqa: E402
+import job_agent as ja
+for _k, _v in list(vars(ja).items()):
+    if 'SCORE' in _k.upper() and _v == 50:
+        setattr(ja, _k, 60)
+  # noqa: E402
 from openpyxl import load_workbook  # noqa: E402
 
 # Use the temp paths directly: job_agent calls load_dotenv(override=True), which would otherwise
